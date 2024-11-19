@@ -59,7 +59,14 @@ func CreateArticle(ctx *gin.Context) {
 	if err := ctx.ShouldBindJSON(&article); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
+
 	}
+	//创建表
+	if err := global.Db.AutoMigrate(&models.Article{}); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	// 创建文章
 	if err := global.Db.Create(&article).Error; err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

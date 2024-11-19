@@ -23,5 +23,10 @@ func InitRouter() *gin.Engine {
 		article.GET("/all", controllers.GetAllArticle)
 		article.GET("/:id", controllers.GetArticleById)
 	}
+	exchangeRate := r.Group("/api/exchange_rate")
+	{
+		exchangeRate.POST("/add", controllers.AddExchangeRate)
+		exchangeRate.GET("/all", controllers.GetExchangeRate)
+	}
 	return r
 }
